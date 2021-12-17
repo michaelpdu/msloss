@@ -22,6 +22,7 @@ def train(cfg):
     logger = setup_logger(name='Train', level=cfg.LOGGER.LEVEL)
     logger.info(cfg)
     model = build_model(cfg)
+    cfg.MODEL.DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
     device = torch.device(cfg.MODEL.DEVICE)
     model.to(device)
 

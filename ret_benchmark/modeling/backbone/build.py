@@ -1,7 +1,9 @@
 from ret_benchmark.modeling.registry import BACKBONES
 
 from .bninception import BNInception
-from .resnet import ResNet50
+from .resnet50 import ResNet50
+from .resnet101 import ResNet101
+from .resnet152 import ResNet152
 
 
 def build_backbone(cfg):

@@ -112,7 +112,7 @@ def do_train(
     total_time_str = str(datetime.timedelta(seconds=total_training_time))
     logger.info(
         "Total training time: {} ({:.4f} s / it)".format(
-            total_time_str, total_training_time / (max_iter)
+            total_time_str, total_training_time / max_iter
         )
     )
 

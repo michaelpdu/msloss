@@ -6,13 +6,13 @@ import torchvision.models as models
 from ret_benchmark.modeling import registry
 
 
-@registry.BACKBONES.register('resnet50')
-class ResNet50(nn.Module):
+class ResNet(nn.Module):
 
     def __init__(self):
-        super(ResNet50, self).__init__()
-        self.model = models.resnet50(pretrained=True)
+        super(ResNet, self).__init__()
+        self.model = None
 
+    def freeze_layers(self):
         for module in filter(lambda m: type(m) == nn.BatchNorm2d, self.model.modules()):
             module.eval()
             module.train = lambda _: None
