@@ -99,14 +99,17 @@ class MarginLoss(nn.Module):
         if self.beta_constant:
             beta = self.beta
         else:
-            beta = torch.stack([self.beta[labels[triplet[0]]] for
-                                triplet in sampled_triplets]).type(torch.cuda.FloatTensor)
+            beta = torch.stack([self.beta[labels[triplet[0]]] for triplet in sampled_triplets])
+            if torch.cuda.is_available():
+                beta = beta.type(torch.cuda.FloatTensor)
         # compute actual margin positive and margin negative loss
         pos_loss = F.relu(d_ap-beta+self.margin)
         neg_loss = F.relu(beta-d_an+self.margin)
 
         # compute normalization constant
-        pair_count = torch.sum((pos_loss > 0.)+(neg_loss > 0.)).type(torch.cuda.FloatTensor)
+        pair_count = torch.sum((pos_loss > 0.)+(neg_loss > 0.))
+        if torch.cuda.is_available():
+            pair_count = pair_count.type(torch.cuda.FloatTensor)
         # actual Margin Loss
         loss = torch.sum(pos_loss+neg_loss) if pair_count == 0. else torch.sum(pos_loss+neg_loss)/pair_count
 
